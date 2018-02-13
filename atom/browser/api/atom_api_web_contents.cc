@@ -1229,6 +1229,28 @@ void WebContents::TabSelectionChanged(TabStripModel* tab_strip_model,
   Emit("tab-selection-changed");
 }
 
+void WebContents::TabReplacedAt(TabStripModel* tab_strip_model,
+                                 content::WebContents* old_contents,
+                                 content::WebContents* new_contents,
+                                 int index) {
+  if (old_contents != web_contents())
+    return;
+
+  ::Browser* browser = nullptr;
+  for (auto* b : *BrowserList::GetInstance()) {
+    if (b->tab_strip_model() == tab_strip_model) {
+      browser = b;
+      break;
+    }
+  }
+  CHECK(browser);
+
+  if (g_browser_process->GetTabManager()->IsTabDiscarded(new_contents))
+    Emit("discarded");
+
+  Emit("tab-replaced-at",
+      browser->session_id().id(), index, new_contents);
+}
 
 bool WebContents::OnGoToEntryOffset(int offset) {
   GoToOffset(offset);
@@ -2275,12 +2297,13 @@ void WebContents::SetAutoDiscardable(bool auto_discardable) {
 
 void WebContents::Discard() {
   auto tab_helper = extensions::TabHelper::FromWebContents(web_contents());
-  if (tab_helper) {
-    if (!Emit("will-discard") && tab_helper->Discard())
-      Emit("discarded");
-    else
-      Emit("discard-aborted");
-  }
+  if (!tab_helper)
+    return;
+
+  if (!Emit("will-discard") && tab_helper->Discard())
+    return;
+  else
+    Emit("discard-aborted");
 }
 
 #if BUILDFLAG(ENABLE_EXTENSIONS)
