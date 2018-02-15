@@ -585,6 +585,19 @@ index 4275342f9244aa005521882c23767662fa2a681c..de4b9e02182dd4ed34e248d993c2a5f1
  
    return signin_manager ? signin_manager->GetAuthenticatedAccountInfo()
                          : AccountInfo();
+diff --git a/chrome/browser/safe_browsing/chrome_password_protection_service.h b/chrome/browser/safe_browsing/chrome_password_protection_service.h
+index 9f9a34a962f52c4f9a56b1f0bd25ab350c5cdd05..fefa41dac43a699f3c8fe5b9ac2ef4df6496a451 100644
+--- a/chrome/browser/safe_browsing/chrome_password_protection_service.h
++++ b/chrome/browser/safe_browsing/chrome_password_protection_service.h
+@@ -40,7 +40,7 @@ using url::Origin;
+ void ShowPasswordReuseModalWarningDialog(
+     content::WebContents* web_contents,
+     ChromePasswordProtectionService* service,
+-    OnWarningDone done_callback);
++    OnWarningDone done_callback) {}
+ 
+ // Called by ChromeContentBrowserClient to create a
+ // PasswordProtectionNavigationThrottle if appropriate.
 diff --git a/chrome/browser/safe_browsing/download_protection/check_client_download_request.cc b/chrome/browser/safe_browsing/download_protection/check_client_download_request.cc
 index 7d32a4cc7a0f1d2230d1f965431a291424ae0db1..e3942cd359082aea43635ff53b2f67b192c0d43a 100644
 --- a/chrome/browser/safe_browsing/download_protection/check_client_download_request.cc
