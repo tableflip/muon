@@ -622,28 +622,28 @@ index 7d32a4cc7a0f1d2230d1f965431a291424ae0db1..ed699539f22fad86ad581553974079c9
    return true;
  }
 diff --git a/chrome/browser/safe_browsing/download_protection/download_url_sb_client.cc b/chrome/browser/safe_browsing/download_protection/download_url_sb_client.cc
-index 9763c38c680c69044ed89c89ea09e10255439fcb..2193cc30c216fb96dbaa7727352adab03c41fecc 100644
+index 9763c38c680c69044ed89c89ea09e10255439fcb..4cbaad436e9e5687a3ba7880a0a6dcbb1ea96eb5 100644
 --- a/chrome/browser/safe_browsing/download_protection/download_url_sb_client.cc
 +++ b/chrome/browser/safe_browsing/download_protection/download_url_sb_client.cc
 @@ -121,7 +121,9 @@ void DownloadUrlSBClient::ReportMalware(SBThreatType threat_type) {
    hit_report.is_metrics_reporting_active =
        ChromeMetricsServiceAccessor::IsMetricsAndCrashReportingEnabled();
  
-+#if !defined(MUON_CHROMIUM_BUILD)
++#if defined(MUON_CHROMIUM_BUILD)
    ui_manager_->MaybeReportSafeBrowsingHit(hit_report, item_->GetWebContents());
 +#endif
  }
  
  void DownloadUrlSBClient::IdentifyReferrerChain() {
 diff --git a/chrome/browser/safe_browsing/safe_browsing_blocking_page.cc b/chrome/browser/safe_browsing/safe_browsing_blocking_page.cc
-index d5b5cf161ec3fd0119e984c8fa21e11f35a37a33..a8d2855c3f386ed053421d2201ea8b6c6ed15042 100644
+index d5b5cf161ec3fd0119e984c8fa21e11f35a37a33..08ae066642ecf8789ad1cc5ec550fe5a13cbe5fe 100644
 --- a/chrome/browser/safe_browsing/safe_browsing_blocking_page.cc
 +++ b/chrome/browser/safe_browsing/safe_browsing_blocking_page.cc
 @@ -197,6 +197,7 @@ void SafeBrowsingBlockingPage::FinishThreatDetails(const base::TimeDelta& delay,
  
    // Finish computing threat details. TriggerManager will decide if its safe to
    // send the report.
-+#if !defined(MUON_CHROMIUM_BUILD)
++#if defined(MUON_CHROMIUM_BUILD)
    bool report_sent = g_browser_process->safe_browsing_service()
                           ->trigger_manager()
                           ->FinishCollectingThreatDetails(
