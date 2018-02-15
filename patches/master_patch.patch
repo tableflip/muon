@@ -605,18 +605,19 @@ index 9f9a34a962f52c4f9a56b1f0bd25ab350c5cdd05..fefa41dac43a699f3c8fe5b9ac2ef4df
  // Called by ChromeContentBrowserClient to create a
  // PasswordProtectionNavigationThrottle if appropriate.
 diff --git a/chrome/browser/safe_browsing/download_protection/check_client_download_request.cc b/chrome/browser/safe_browsing/download_protection/check_client_download_request.cc
-index 7d32a4cc7a0f1d2230d1f965431a291424ae0db1..e3942cd359082aea43635ff53b2f67b192c0d43a 100644
+index 7d32a4cc7a0f1d2230d1f965431a291424ae0db1..ed699539f22fad86ad581553974079c9b68038a9 100644
 --- a/chrome/browser/safe_browsing/download_protection/check_client_download_request.cc
 +++ b/chrome/browser/safe_browsing/download_protection/check_client_download_request.cc
-@@ -292,11 +292,6 @@ bool CheckClientDownloadRequest::IsSupportedDownload(
-     *reason = final_url.has_host() ? REASON_REMOTE_FILE : REASON_LOCAL_FILE;
+@@ -293,10 +293,12 @@ bool CheckClientDownloadRequest::IsSupportedDownload(
      return false;
    }
--  // This check should be last, so we know the earlier checks passed.
--  if (!FileTypePolicies::GetInstance()->IsCheckedBinaryFile(target_path)) {
--    *reason = REASON_NOT_BINARY_FILE;
--    return false;
--  }
+   // This check should be last, so we know the earlier checks passed.
++#if defined(MUON_CHROMIUM_BUILD)
+   if (!FileTypePolicies::GetInstance()->IsCheckedBinaryFile(target_path)) {
+     *reason = REASON_NOT_BINARY_FILE;
+     return false;
+   }
++#endif
    *type = download_protection_util::GetDownloadType(target_path);
    return true;
  }
