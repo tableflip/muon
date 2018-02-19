@@ -130,9 +130,9 @@ using guest_view::GuestViewManager;
 namespace mate {
 
 template<>
-struct Converter<content::DownloadItem*> {
+struct Converter<download::DownloadItem*> {
   static v8::Local<v8::Value> ToV8(
-      v8::Isolate* isolate, content::DownloadItem* val) {
+      v8::Isolate* isolate, download::DownloadItem* val) {
     if (!val)
       return v8::Null(isolate);
     return atom::api::DownloadItem::Create(isolate, val).ToV8();
@@ -1705,8 +1705,8 @@ void WebContents::LoadURL(const GURL& url, const mate::Dictionary& options) {
   web_contents()->GetController().LoadURLWithParams(params);
 }
 
-void OnDownloadStarted(base::Callback<void(content::DownloadItem*)> callback,
-                        content::DownloadItem* item,
+void OnDownloadStarted(base::Callback<void(download::DownloadItem*)> callback,
+                        download::DownloadItem* item,
                         content::DownloadInterruptReason reason) {
   content::BrowserThread::PostTask(content::BrowserThread::UI, FROM_HERE,
       base::Bind(callback, item));
@@ -1732,7 +1732,7 @@ void WebContents::DownloadURL(const GURL& url,
     params->set_suggested_name(suggested_name);
   }
 
-  base::Callback<void(content::DownloadItem*)> callback;
+  base::Callback<void(download::DownloadItem*)> callback;
   if (args && args->GetNext(&callback)) {
     params->set_callback(base::Bind(OnDownloadStarted, callback));
   }

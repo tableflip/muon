@@ -42,7 +42,7 @@ AtomDownloadManagerDelegate::~AtomDownloadManagerDelegate() {
   }
 }
 
-void AtomDownloadManagerDelegate::GetItemSavePath(content::DownloadItem* item,
+void AtomDownloadManagerDelegate::GetItemSavePath(download::DownloadItem* item,
                                                   base::FilePath* path) {
   v8::Isolate* isolate = v8::Isolate::GetCurrent();
   v8::Locker locker(isolate);
@@ -108,7 +108,7 @@ void AtomDownloadManagerDelegate::OnDownloadPathGenerated(
     download_item->SetSavePath(path);
 
   callback.Run(path,
-               content::DownloadItem::TARGET_DISPOSITION_PROMPT,
+               download::DownloadItem::TARGET_DISPOSITION_PROMPT,
                content::DOWNLOAD_DANGER_TYPE_NOT_DANGEROUS, path,
                path.empty()
                   ? content::DOWNLOAD_INTERRUPT_REASON_USER_CANCELED
@@ -121,7 +121,7 @@ void AtomDownloadManagerDelegate::Shutdown() {
 }
 
 bool AtomDownloadManagerDelegate::DetermineDownloadTarget(
-    content::DownloadItem* download,
+    download::DownloadItem* download,
     const content::DownloadTargetCallback& callback) {
   DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
 
@@ -167,14 +167,14 @@ bool AtomDownloadManagerDelegate::DetermineDownloadTarget(
 }
 
 bool AtomDownloadManagerDelegate::ShouldOpenDownload(
-    content::DownloadItem* download,
+    download::DownloadItem* download,
     const content::DownloadOpenDelayedCallback& callback) {
   return true;
 }
 
 void AtomDownloadManagerDelegate::GetNextId(
     const content::DownloadIdCallback& callback) {
-  static uint32_t next_id = content::DownloadItem::kInvalidId + 1;
+  static uint32_t next_id = download::DownloadItem::kInvalidId + 1;
   callback.Run(next_id++);
 }
 

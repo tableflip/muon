@@ -387,7 +387,7 @@ void Session::DefaultDownloadDirectoryChanged() {
 }
 
 void Session::OnDownloadCreated(content::DownloadManager* manager,
-                                content::DownloadItem* item) {
+                                download::DownloadItem* item) {
   if (item->IsSavePackageDownload())
     return;
 
