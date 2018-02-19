@@ -26,9 +26,6 @@
 #include "content/public/browser/network_service_instance.h"
 #include "content/public/common/content_features.h"
 #include "content/public/common/content_switches.h"
-#include "content/public/network/ignore_errors_cert_verifier.h"
-#include "content/public/network/network_service.h"
-#include "content/public/network/url_request_context_builder_mojo.h"
 #include "extensions/features/features.h"
 #include "net/cert/cert_verifier.h"
 #include "net/cert/ct_known_logs.h"
@@ -42,6 +39,9 @@
 #include "net/http/http_auth_preferences.h"
 #include "net/url_request/url_request_context.h"
 #include "net/url_request/url_request_context_getter.h"
+#include "services/network/public/cpp/ignore_errors_cert_verifier.h"
+#include "services/network/public/cpp/network_service.h"
+#include "services/network/public/cpp/url_request_context_builder_mojo.h"
 #include "vendor/brightray/common/content_client.h"
 
 #if BUILDFLAG(ENABLE_EXTENSIONS)
