@@ -863,8 +863,9 @@ void WebContents::IsPlaceholder(mate::Arguments* args) {
   auto tab_helper = extensions::TabHelper::FromWebContents(web_contents());
   if (tab_helper) {
     args->Return(tab_helper->is_placeholder());
+  } else {
+    args->Return(false);
   }
-  args->Return(false);
 }
 
 void WebContents::AttachGuest(mate::Arguments* args) {
