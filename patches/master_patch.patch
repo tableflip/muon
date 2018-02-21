@@ -577,20 +577,6 @@ index d85ddf9db90d332a31f839e7600b8d6e5ec61356..2dbe745b19001ce55631e625b6c597b2
    // Finds TabStripModel which has a WebContents whose id is the given
    // |tab_id|, and returns the WebContents index and the TabStripModel.
    int FindTabStripModelById(int32_t tab_id, TabStripModel** model) const;
-diff --git a/chrome/browser/safe_browsing/chrome_password_protection_service.cc b/chrome/browser/safe_browsing/chrome_password_protection_service.cc
-index 4275342f9244aa005521882c23767662fa2a681c..de4b9e02182dd4ed34e248d993c2a5f1e480d020 100644
---- a/chrome/browser/safe_browsing/chrome_password_protection_service.cc
-+++ b/chrome/browser/safe_browsing/chrome_password_protection_service.cc
-@@ -672,8 +672,7 @@ bool ChromePasswordProtectionService::UserClickedThroughSBInterstitial(
- }
- 
- AccountInfo ChromePasswordProtectionService::GetAccountInfo() {
--  SigninManagerBase* signin_manager =
--      SigninManagerFactory::GetForProfileIfExists(profile_);
-+  SigninManagerBase* signin_manager = nullptr;
- 
-   return signin_manager ? signin_manager->GetAuthenticatedAccountInfo()
-                         : AccountInfo();
 diff --git a/chrome/browser/safe_browsing/chrome_password_protection_service.h b/chrome/browser/safe_browsing/chrome_password_protection_service.h
 index 9f9a34a962f52c4f9a56b1f0bd25ab350c5cdd05..fefa41dac43a699f3c8fe5b9ac2ef4df6496a451 100644
 --- a/chrome/browser/safe_browsing/chrome_password_protection_service.h
