@@ -41,17 +41,6 @@ using safe_browsing::DownloadProtectionService;
 
 const char kSafeBrowsingUserDataKey[] = "Safe Browsing ID";
 
-class SafeBrowsingState : public DownloadCompletionBlocker {
- public:
-  SafeBrowsingState() {}
-  ~SafeBrowsingState() override;
-
- private:
-  DISALLOW_COPY_AND_ASSIGN(SafeBrowsingState);
-};
-
-SafeBrowsingState::~SafeBrowsingState() {}
-
 void CheckDownloadUrlDone(
     const DownloadTargetDeterminerDelegate::CheckDownloadUrlCallback& callback,
     safe_browsing::DownloadCheckResult result) {
@@ -74,13 +63,13 @@ bool AtomDownloadManagerDelegate::IsDownloadReadyForCompletion(
     const base::Closure& internal_complete_callback) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
 #if defined(FULL_SAFE_BROWSING)
-  SafeBrowsingState* state = static_cast<SafeBrowsingState*>(
+  DownloadCompletionBlocker* state = static_cast<DownloadCompletionBlocker*>(
       item->GetUserData(&kSafeBrowsingUserDataKey));
   if (!state) {
     // Begin the safe browsing download protection check.
     DownloadProtectionService* service = GetDownloadProtectionService();
     if (service) {
-      state = new SafeBrowsingState();
+      state = new DownloadCompletionBlocker();
       state->set_callback(internal_complete_callback);
       item->SetUserData(&kSafeBrowsingUserDataKey, base::WrapUnique(state));
       service->CheckClientDownload(
@@ -211,7 +200,7 @@ void AtomDownloadManagerDelegate::CheckClientDownloadDone(
     }
   }
 
-  SafeBrowsingState* state = static_cast<SafeBrowsingState*>(
+  DownloadCompletionBlocker* state = static_cast<DownloadCompletionBlocker*>(
       item->GetUserData(&kSafeBrowsingUserDataKey));
   state->CompleteDownload();
 }
