@@ -14,7 +14,6 @@
 #include "chrome/common/importer/profile_import.mojom.h"
 #include "content/public/common/resource_usage_reporter.mojom.h"
 #include "chrome/utility/extensions/extensions_handler.h"
-#include "chrome/utility/utility_message_handler.h"
 #include "content/public/common/content_switches.h"
 #include "content/public/common/service_manager_connection.h"
 #include "content/public/common/simple_connection_filter.h"
