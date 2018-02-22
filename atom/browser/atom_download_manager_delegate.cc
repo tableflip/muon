@@ -403,16 +403,10 @@ void AtomDownloadManagerDelegate::ReserveVirtualPath(
     bool create_directory,
     DownloadPathReservationTracker::FilenameConflictAction conflict_action,
     const ReservedPathCallback& callback) {
-      Profile* browser_context = static_cast<Profile*>(
-          download_manager_->GetBrowserContext());
-      base::FilePath default_download_path(
-        browser_context->GetPrefs()->GetFilePath(
-          prefs::kDownloadDefaultDirectory));
-
       DownloadPathReservationTracker::GetReservedPath(
           download,
           virtual_path,
-          default_download_path,
+          download_prefs_->DownloadPath(),
           true,
           conflict_action,
           callback);
