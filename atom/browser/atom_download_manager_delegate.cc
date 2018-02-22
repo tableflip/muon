@@ -301,10 +301,6 @@ void AtomDownloadManagerDelegate::OnDownloadTargetDetermined(
   if (!item)
     return;
 
-  item->OnContentCheckCompleted(
-      target_info->danger_type,
-      content::DOWNLOAD_INTERRUPT_REASON_NONE);
-
   v8::Isolate* isolate = v8::Isolate::GetCurrent();
   v8::Locker locker(isolate);
   v8::HandleScope handle_scope(isolate);
